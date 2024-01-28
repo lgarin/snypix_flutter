@@ -18,14 +18,14 @@ class MainApp extends GetMaterialApp {
       title: 'Snypix',
       theme: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Color.fromARGB(255, 54, 71, 163),
-        primaryColorDark: Color.fromARGB(255, 43, 56, 130),
-        backgroundColor: Color.fromARGB(255, 63, 79, 167),
+        primaryColor: const Color.fromARGB(255, 54, 71, 163),
+        primaryColorDark: const Color.fromARGB(255, 43, 56, 130),
+        backgroundColor: const Color.fromARGB(255, 63, 79, 167),
         appBarTheme: const AppBarTheme(
             backgroundColor: Color.fromARGB(255, 63, 79, 167)),
         textTheme: const TextTheme(
-            button: TextStyle(fontSize: 18, color: Colors.white),
-            subtitle2: TextStyle(
+            labelLarge: TextStyle(fontSize: 18, color: Colors.white),
+            titleSmall: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
                 color: Colors.white)),

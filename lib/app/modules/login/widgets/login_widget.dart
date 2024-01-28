@@ -13,8 +13,13 @@ class LoginWidget extends GetView<LoginController> {
 
   const LoginWidget({super.key});
 
+  // TODO use StateMixin instead of Obx
   @override
   Widget build(BuildContext context) {
+    return Obx(() => _buildContent());
+  }
+
+  Widget _buildContent() {
     if (!controller.isReady) {
       return const LoadingCircleWidget();
     }
