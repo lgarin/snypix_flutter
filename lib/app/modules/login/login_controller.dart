@@ -1,52 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snypix_flutter/app/data/models/credential_model.dart';
+import 'package:snypix_flutter/app/data/services/credential_store_service.dart';
 
-class LoginController extends GetxController {
+class LoginController extends GetxController with StateMixin<CredentialModel> {
+  final credentialStore = Get.find<CredentialStoreService>();
   final loginFormKey = GlobalKey<FormState>();
 
-  final _username = ''.obs;
-  final _password = ''.obs;
+  var _credential = CredentialModel.empty();
   final _storeCredential = false.obs;
-  final _ready = false.obs;
 
   LoginController();
 
   LoginController.fromCredential(CredentialModel credential) {
-    _username.value = credential.username;
-    _password.value = credential.password;
+    _credential = credential;
     _storeCredential.value = hasUsernameInput() && hasPasswordInput();
   }
 
-  String get username => _username.value;
-  String get password => _password.value;
+  String get username => _credential.username;
+  String get password => _credential.password;
   bool get storeCredential => _storeCredential.value;
 
-  void setUsername(String? newUsername) => _username.value = newUsername ?? '';
-  void setPassword(String? newPassword) => _password.value = newPassword ?? '';
+  void setUsername(String? newUsername) =>
+      _credential = CredentialModel(newUsername ?? '', password);
+  void setPassword(String? newPassword) =>
+      _credential = CredentialModel(username, newPassword ?? '');
   void setStoreCredential(bool? newValue) =>
       _storeCredential.value = newValue ?? false;
 
   bool hasInput() => hasUsernameInput() || hasPasswordInput();
 
-  bool hasUsernameInput() => _username.value != '';
+  bool hasUsernameInput() => username != '';
 
-  bool hasPasswordInput() => _password.value != '';
+  bool hasPasswordInput() => password != '';
 
   bool isDefined() => hasUsernameInput() && hasPasswordInput();
 
-  CredentialModel toCredential() => CredentialModel(username, password);
-
-  bool get isReady => _ready.value;
+  @override
+  CredentialModel get state => _credential;
 
   @override
-  void onReady() {
-    // TODO load saved credentials
-    _ready.value = true;
+  void onReady() async {
+    GetStatus.loading();
+    try {
+      _credential = await credentialStore.load();
+      change(GetStatus.success(_credential));
+    } catch (e) {
+      change(GetStatus.error(e.toString()));
+    }
   }
 
-  void onLogin() {
-    // TODO perform login
+  void onLogin() async {
+    if (loginFormKey.currentState!.validate()) {
+      loginFormKey.currentState!.save();
+      if (storeCredential) {
+        await credentialStore.store(_credential);
+      } else {
+        await credentialStore.clear();
+      }
+      // TODO perform login
+    }
   }
 
   void onRegister() {

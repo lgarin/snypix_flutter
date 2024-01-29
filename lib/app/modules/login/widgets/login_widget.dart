@@ -7,22 +7,20 @@ import 'package:snypix_flutter/app/modules/login/widgets/password_widget.dart';
 import 'package:snypix_flutter/app/modules/login/widgets/register_button.dart';
 import 'package:snypix_flutter/app/modules/login/widgets/username_widget.dart';
 import 'package:snypix_flutter/app/widgets/loading_circle_widget.dart';
+import 'package:snypix_flutter/app/widgets/simple_dialog.dart';
 
 class LoginWidget extends GetView<LoginController> {
   static const spacing = 10.0;
 
   const LoginWidget({super.key});
 
-  // TODO use StateMixin instead of Obx
   @override
   Widget build(BuildContext context) {
-    return Obx(() => _buildContent());
+    return controller.obx((state) => _buildForm(),
+        onLoading: const LoadingCircleWidget(), onError: showUnexpectedError);
   }
 
-  Widget _buildContent() {
-    if (!controller.isReady) {
-      return const LoadingCircleWidget();
-    }
+  Widget _buildForm() {
     return Form(
         key: controller.loginFormKey,
         autovalidateMode: controller.hasInput()

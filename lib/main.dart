@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:snypix_flutter/app/data/services/credential_store_service.dart';
 import 'package:snypix_flutter/app/modules/login/login_controller.dart';
 import 'package:snypix_flutter/app/modules/login/login_page.dart';
 
 void main() {
+  Get.reset();
+  Get.lazyPut(() => CredentialStoreService());
   Get.lazyPut(() => LoginController());
   runApp(const MainApp());
 }
