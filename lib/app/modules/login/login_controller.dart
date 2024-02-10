@@ -41,7 +41,7 @@ class LoginController extends GetxController with StateMixin<CredentialModel> {
 
   @override
   void onReady() async {
-    GetStatus.loading();
+    change(GetStatus.loading());
     try {
       _credential = await credentialStore.load();
       change(GetStatus.success(_credential));
