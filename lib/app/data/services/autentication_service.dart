@@ -29,8 +29,12 @@ class AuthenticationService extends GetxService {
 
   _AuthToken? _token;
 
-  void initToken(LoginTokenResponse? login) {
+  void _initToken(LoginTokenResponse? login) {
     _token = login != null ? _AuthToken(login) : null;
+  }
+
+  Future<CredentialModel> loadInitialCredentials() async {
+    return _credentialStore.load();
   }
 
   Future<UserProfile> authenticate(
@@ -41,7 +45,7 @@ class AuthenticationService extends GetxService {
       await _credentialStore.clear();
     }
     var login = await _authApi.loginUser(credential);
-    initToken(login);
+    _initToken(login);
 
     final profile = UserProfile.fromLogin(login);
     //_profileController.add(profile);
@@ -51,7 +55,7 @@ class AuthenticationService extends GetxService {
   Future<String?> getOrRenewAccessToken() async {
     if (_token != null && _token!.expired) {
       final login = await _authApi.renewLogin(_token!.refreshToken);
-      initToken(login);
+      _initToken(login);
     }
     return _token?.accessToken;
   }

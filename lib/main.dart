@@ -23,7 +23,6 @@ class MainApp extends GetMaterialApp {
         brightness: Brightness.light,
         primaryColor: const Color.fromARGB(255, 54, 71, 163),
         primaryColorDark: const Color.fromARGB(255, 43, 56, 130),
-        backgroundColor: const Color.fromARGB(255, 63, 79, 167),
         appBarTheme: const AppBarTheme(
             backgroundColor: Color.fromARGB(255, 63, 79, 167)),
         textTheme: const TextTheme(

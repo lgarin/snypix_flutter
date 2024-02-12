@@ -26,7 +26,7 @@ class LoginResponse extends LoginTokenResponse {
   final UserStatistic? statistic;
   final UserPrivacy? privacy;
 
-  LoginResponse.fromJson(Map<String, dynamic> json)
+  LoginResponse.fromJson(super.json)
       : userId = json['id'],
         username = json['username'],
         email = json['email'],
@@ -46,5 +46,5 @@ class LoginResponse extends LoginTokenResponse {
         privacy = json['privacy'] != null
             ? UserPrivacy.fromJson(json['privacy'])
             : null,
-        super.fromJson(json);
+        super.fromJson();
 }

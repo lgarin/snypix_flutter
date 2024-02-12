@@ -1,3 +1,5 @@
+import 'package:snypix_flutter/app/data/models/login_model.dart';
+
 class UserStatistic {
   final int hitCount;
   final int likeCount;
@@ -19,13 +21,21 @@ class UserStatistic {
   int get mediaCount => pictureCount + videoCount;
 }
 
-enum LocationPrivacy { BLUR, MASK }
+enum LocationPrivacy {
+  blur('BLUR'),
+  mask('MASK');
 
-const List<String> _locationPrivacyNames = ['BLUR', 'MASK'];
-const Map<String, LocationPrivacy> _locationPrivacyMap = {
-  'BLUR': LocationPrivacy.BLUR,
-  'MASK': LocationPrivacy.MASK,
-};
+  static const Map<String, LocationPrivacy> _locationPrivacyMap = {
+    'BLUR': LocationPrivacy.blur,
+    'MASK': LocationPrivacy.mask,
+  };
+
+  final String name;
+
+  const LocationPrivacy(this.name);
+
+  static LocationPrivacy? fromJson(String name) => _locationPrivacyMap[name];
+}
 
 class UserPrivacy {
   final bool birthdateMasked;
@@ -46,7 +56,7 @@ class UserPrivacy {
         genderMasked = json['genderMasked'] ?? false,
         nameMasked = json['nameMasked'] ?? false,
         location = json['location'] != null
-            ? _locationPrivacyMap[json['location']]
+            ? LocationPrivacy.fromJson(json['location'])
             : null,
         feelingMasked = json['feelingMasked'] ?? false;
 
@@ -54,8 +64,7 @@ class UserPrivacy {
         'nameMasked': nameMasked,
         'genderMasked': genderMasked,
         'birthdateMasked': birthdateMasked,
-        'location':
-            location != null ? _locationPrivacyNames[location.index] : null,
+        'location': location?.name,
         'feelingMasked': feelingMasked,
       };
 }
@@ -77,7 +86,7 @@ class UserProfile {
   final UserPrivacy? privacy;
   final DateTime? followedSince;
 
-  UserProfile.fromLogin(_LoginResponse login)
+  UserProfile.fromLogin(LoginResponse login)
       : userId = login.userId,
         username = login.username,
         online = true,

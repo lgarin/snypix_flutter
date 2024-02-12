@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snypix_flutter/app/data/models/credential_model.dart';
-import 'package:snypix_flutter/app/data/services/credential_store_service.dart';
+import 'package:snypix_flutter/app/data/models/userprofile_model.dart';
+import 'package:snypix_flutter/app/data/services/autentication_service.dart';
+import 'package:snypix_flutter/app/widgets/simple_dialog.dart';
+import 'package:snypix_flutter/core/values/strings.dart';
 
 class LoginController extends GetxController with StateMixin<CredentialModel> {
-  final credentialStore = Get.find<CredentialStoreService>();
+  final authenticationService = Get.find<AuthenticationService>();
   final loginFormKey = GlobalKey<FormState>();
 
   var _credential = CredentialModel.empty();
@@ -43,7 +46,7 @@ class LoginController extends GetxController with StateMixin<CredentialModel> {
   void onReady() async {
     change(GetStatus.loading());
     try {
-      _credential = await credentialStore.load();
+      _credential = await authenticationService.loadInitialCredentials();
       change(GetStatus.success(_credential));
     } catch (e) {
       change(GetStatus.error(e.toString()));
@@ -51,15 +54,28 @@ class LoginController extends GetxController with StateMixin<CredentialModel> {
   }
 
   void onLogin() async {
-    if (loginFormKey.currentState!.validate()) {
-      loginFormKey.currentState!.save();
-      if (storeCredential) {
-        await credentialStore.store(_credential);
-      } else {
-        await credentialStore.clear();
-      }
-      // TODO perform login
+    final form = loginFormKey.currentState!;
+    if (form.validate()) {
+      form.save();
+      _authenticateUser(_credential, _storeCredential.value);
     }
+  }
+
+  Future<UserProfile?> _authenticateUser(
+      CredentialModel credential, bool storeCredential) async {
+    try {
+      final userProfile = await authenticationService.authenticate(
+          _credential, storeCredential);
+      _showNextPage(userProfile);
+      return userProfile;
+    } catch (e) {
+      showMessageDialog(loginFailed, e.toString());
+      return null;
+    }
+  }
+
+  void _showNextPage(UserProfile userProfile) {
+    // TODO navigate to next page
   }
 
   void onRegister() {
