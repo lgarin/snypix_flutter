@@ -27,10 +27,10 @@ class AuthenticationProvider extends GetConnect {
   }
 
   Future<LoginResponse> loginUser(CredentialModel credential) async {
-    final response = await post('/user/login', credential,
+    final response = await post('/user/login', jsonEncode(credential),
         headers: _buildHeader(contentType: jsonMediaType));
     if (response.isOk) {
-      return LoginResponse.fromJson(jsonDecode(response.body));
+      return LoginResponse.fromJson(response.body);
     } else if (response.unauthorized) {
       throw badCredentials;
     }
@@ -39,20 +39,20 @@ class AuthenticationProvider extends GetConnect {
 
   Future<LoginTokenResponse?> renewLogin(String refreshToken) async {
     final response = await post('/user/renewLogin', refreshToken,
-        headers: _buildHeader(contentType: jsonMediaType));
+        headers: _buildHeader(contentType: textMediaType));
     if (response.isOk) {
-      return LoginTokenResponse.fromJson(jsonDecode(response.body));
+      return LoginTokenResponse.fromJson(response.body);
     } else if (response.unauthorized) {
       return Future.value(null);
     }
     throw response.bodyString ?? unknownError; // TODO better error handling
   }
 
-  Future<UserProfile?> currentUser(String? accessToken) async {
+  Future<UserProfile?> currentUser(String accessToken) async {
     final response = await get('/user/current',
         headers: _buildHeader(accessToken: accessToken));
     if (response.isOk) {
-      return UserProfile.fromJson(jsonDecode(response.body));
+      return UserProfile.fromJson(response.body);
     } else if (response.unauthorized) {
       return null;
     }

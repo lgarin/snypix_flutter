@@ -8,9 +8,9 @@ import 'package:snypix_flutter/app/data/services/credential_store_service.dart';
 class _AuthToken {
   static const refreshTokenDelta = 10000;
 
-  final accessToken;
-  final refreshToken;
-  final _expiration;
+  final String accessToken;
+  final String refreshToken;
+  final int _expiration;
 
   _AuthToken(LoginTokenResponse login)
       : accessToken = login.accessToken,
@@ -29,8 +29,8 @@ class AuthenticationService extends GetxService {
 
   _AuthToken? _token;
 
-  void _initToken(LoginTokenResponse? login) {
-    _token = login != null ? _AuthToken(login) : null;
+  void _initToken(LoginTokenResponse? response) {
+    _token = response != null ? _AuthToken(response) : null;
   }
 
   Future<CredentialModel> loadInitialCredentials() async {
@@ -48,14 +48,14 @@ class AuthenticationService extends GetxService {
     _initToken(login);
 
     final profile = UserProfile.fromLogin(login);
-    //_profileController.add(profile);
+    //_profileController.add(profile); // TODO notify profile change
     return profile;
   }
 
   Future<String?> getOrRenewAccessToken() async {
     if (_token != null && _token!.expired) {
-      final login = await _authApi.renewLogin(_token!.refreshToken);
-      _initToken(login);
+      final response = await _authApi.renewLogin(_token!.refreshToken);
+      _initToken(response);
     }
     return _token?.accessToken;
   }
@@ -63,35 +63,41 @@ class AuthenticationService extends GetxService {
   Future<UserProfile> currentUser() async {
     UserProfile? profile;
     try {
-      profile = await _authApi.currentUser(await getOrRenewAccessToken());
+      final accessToken = await getOrRenewAccessToken();
+      if (accessToken is String) {
+        profile = await _authApi.currentUser(accessToken);
+      }
     } catch (e) {
       // no server connection
-      profile = UserProfile.anonym();
+      print(e.toString());
     }
     if (profile != null) {
-      //_profileController.add(profile);
+      //_profileController.add(profile); // TODO notify profile change
     }
     return profile ?? UserProfile.anonym();
   }
 
-  Future<String> obtainAccessToken() async {
+  Future<String?> obtainAccessToken() async {
     final token = await getOrRenewAccessToken();
     if (token == null) {
       //await _navigation.pushPage(AppRoute.Login);
       // TODO navigate to login
     }
-    return _token?.accessToken;
+    return obtainAccessToken();
   }
 
   Future<void> logout() async {
-    try {
-      await _authApi.logout(await getOrRenewAccessToken() ?? '');
-    } catch (e) {
-      // ignore
-      print(e.toString());
+    final accessToken = _token?.accessToken;
+    if (accessToken is String) {
+      try {
+        await _authApi.logout(accessToken);
+      } catch (e) {
+        // ignore
+        print(e.toString());
+      }
     }
     _token = null;
-    //_profileController.add(null);
+    //_profileController.add(UserProfile.anonym()); // TODO notify profile change
   }
 
   Future<void> signOut() async {
