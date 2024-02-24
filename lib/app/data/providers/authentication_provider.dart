@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:snypix_flutter/app/data/models/credential_model.dart';
 import 'package:snypix_flutter/app/data/models/login_model.dart';
 import 'package:snypix_flutter/app/data/models/userprofile_model.dart';
+import 'package:snypix_flutter/core/errors/http_error_handler.dart';
 import 'package:snypix_flutter/core/values/consts.dart';
-import 'package:snypix_flutter/core/values/strings.dart';
 
 class AuthenticationProvider extends GetConnect {
   @override
@@ -31,10 +32,8 @@ class AuthenticationProvider extends GetConnect {
         headers: _buildHeader(contentType: jsonMediaType));
     if (response.isOk) {
       return LoginResponse.fromJson(response.body);
-    } else if (response.unauthorized) {
-      throw badCredentials;
     }
-    throw response.bodyString ?? unknownError; // TODO better error handling
+    throw extractErrorMessage(response);
   }
 
   Future<LoginTokenResponse?> renewLogin(String refreshToken) async {
@@ -45,7 +44,7 @@ class AuthenticationProvider extends GetConnect {
     } else if (response.unauthorized) {
       return Future.value(null);
     }
-    throw response.bodyString ?? unknownError; // TODO better error handling
+    throw extractErrorMessage(response);
   }
 
   Future<UserProfile?> currentUser(String accessToken) async {
@@ -56,15 +55,15 @@ class AuthenticationProvider extends GetConnect {
     } else if (response.unauthorized) {
       return null;
     }
-    throw response.bodyString ?? unknownError; // TODO better error handling
+    throw extractErrorMessage(response);
   }
 
   Future<void> logout(String accessToken) async {
     final response = await post('/user/logout', null,
         headers: _buildHeader(accessToken: accessToken));
-    if (response.statusCode == 204) {
+    if (response.statusCode == HttpStatus.noContent) {
       return;
     }
-    throw response.bodyString ?? unknownError; // TODO better error handling
+    throw extractErrorMessage(response);
   }
 }

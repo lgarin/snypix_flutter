@@ -15,13 +15,13 @@ void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends GetMaterialApp {
+class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   // TODO fix theme
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Snypix',
       theme: ThemeData(
         brightness: Brightness.light,

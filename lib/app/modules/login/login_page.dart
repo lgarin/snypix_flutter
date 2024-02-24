@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:snypix_flutter/app/modules/login/login_controller.dart';
 import 'package:snypix_flutter/app/modules/login/widgets/login_header.dart';
 import 'package:snypix_flutter/app/modules/login/widgets/login_widget.dart';
+import 'package:snypix_flutter/core/values/consts.dart';
 
 class LoginPage extends GetView<LoginController> {
-  static const backgroundImagePath = "assets/images/login_bg.jpg";
   static const margin = 40.0;
 
   const LoginPage({super.key});
@@ -23,7 +23,7 @@ class LoginPage extends GetView<LoginController> {
             image: DecorationImage(
                 alignment: AlignmentDirectional.bottomCenter,
                 fit: BoxFit.fill,
-                image: AssetImage(backgroundImagePath))),
+                image: AssetImage(loginBackgroundPath))),
         child: _buildContent());
   }
 

@@ -11,7 +11,7 @@ class UsernameWidget extends GetView<LoginController> {
   // FIXME : use library for that
   String? _validate(String? value) {
     if (value == null || value.isEmpty) {
-      return "$label required";
+      return '$label required';
     }
     return null;
   }

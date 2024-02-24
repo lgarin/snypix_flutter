@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:snypix_flutter/core/values/strings.dart';
 
 Widget showUnexpectedError<T>(String? error) {
-  showMessageDialog('Unexpected error', error ?? 'Something went wrong');
+  showMessageDialog(
+      ErrorMessage.unexpectedError, error ?? ErrorMessage.somethingWrong);
   return const SizedBox.shrink();
 }
 
@@ -11,13 +13,14 @@ Future<T?> showMessageDialog<T>(String title, String message) {
       AlertDialog(title: Text(title), content: Text(message), actions: <Widget>[
     TextButton(
       onPressed: Get.back,
-      child: const Text('Dismiss'),
+      child: const Text(ButtonText.dismiss),
     )
   ]));
 }
 
 Future<bool?> showConfirmDialog(String title, String message,
-    {String confirmText = 'Confirm', String cancelText = 'Cancel'}) {
+    {String confirmText = ButtonText.confirm,
+    String cancelText = ButtonText.cancel}) {
   return Get.dialog<bool>(AlertDialog(
     title: Text(title),
     content: Text(message),

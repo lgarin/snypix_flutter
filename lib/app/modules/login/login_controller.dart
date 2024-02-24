@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:snypix_flutter/app/data/models/credential_model.dart';
 import 'package:snypix_flutter/app/data/models/userprofile_model.dart';
 import 'package:snypix_flutter/app/data/services/autentication_service.dart';
+import 'package:snypix_flutter/app/modules/home/home_page.dart';
 import 'package:snypix_flutter/app/widgets/simple_dialog.dart';
 import 'package:snypix_flutter/core/values/strings.dart';
 
@@ -57,25 +58,36 @@ class LoginController extends GetxController with StateMixin<CredentialModel> {
     final form = loginFormKey.currentState!;
     if (form.validate()) {
       form.save();
-      _authenticateUser(_credential, _storeCredential.value);
+      await _performLogin();
+    }
+  }
+
+  Future<void> _performLogin() async {
+    change(GetStatus.loading());
+    final userProfile =
+        await _authenticateUser(_credential, _storeCredential.value);
+    if (userProfile != null) {
+      _showNextPage(userProfile);
+    } else {
+      change(GetStatus.success(_credential));
     }
   }
 
   Future<UserProfile?> _authenticateUser(
       CredentialModel credential, bool storeCredential) async {
     try {
-      final userProfile = await authenticationService.authenticate(
+      return await authenticationService.authenticate(
           _credential, storeCredential);
-      _showNextPage(userProfile);
-      return userProfile;
     } catch (e) {
-      showMessageDialog(loginFailed, e.toString());
+      showMessageDialog(ErrorMessage.loginFailed, e.toString());
       return null;
     }
   }
 
   void _showNextPage(UserProfile userProfile) {
     // TODO navigate to next page
+    showMessageDialog("Success", userProfile.username ?? "Unknown user");
+    Get.offAll(() => const HomePage());
   }
 
   void onRegister() {
