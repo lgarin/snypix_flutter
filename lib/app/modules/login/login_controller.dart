@@ -52,6 +52,11 @@ class LoginController extends GetxController with StateMixin<CredentialModel> {
     } catch (e) {
       change(GetStatus.error(e.toString()));
     }
+
+    if (!_credential.isEmpty) {
+      _storeCredential.value = true;
+      await _performLogin();
+    }
   }
 
   void onLogin() async {
@@ -87,7 +92,7 @@ class LoginController extends GetxController with StateMixin<CredentialModel> {
   void _showNextPage(UserProfile userProfile) {
     // TODO navigate to next page
     showMessageDialog("Success", userProfile.username ?? "Unknown user");
-    Get.offAll(() => const HomePage());
+    Get.offNamed("/home");
   }
 
   void onRegister() {

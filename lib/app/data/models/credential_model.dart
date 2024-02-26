@@ -8,6 +8,8 @@ class CredentialModel {
 
   CredentialModel(this.username, this.password);
 
+  bool get isEmpty => username.isEmpty && password.isEmpty;
+
   CredentialModel.fromJson(Map<String, dynamic> json)
       : username = json['username'],
         password = json['password'];

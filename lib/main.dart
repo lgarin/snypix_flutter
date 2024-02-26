@@ -3,16 +3,30 @@ import 'package:get/get.dart';
 import 'package:snypix_flutter/app/data/providers/authentication_provider.dart';
 import 'package:snypix_flutter/app/data/services/autentication_service.dart';
 import 'package:snypix_flutter/app/data/services/credential_store_service.dart';
+import 'package:snypix_flutter/app/modules/home/home_page.dart';
 import 'package:snypix_flutter/app/modules/login/login_controller.dart';
 import 'package:snypix_flutter/app/modules/login/login_page.dart';
 
 void main() {
   Get.reset();
-  Get.lazyPut(() => CredentialStoreService());
-  Get.lazyPut(() => LoginController());
-  Get.lazyPut(() => AuthenticationProvider());
-  Get.lazyPut(() => AuthenticationService());
   runApp(const MainApp());
+}
+
+class GlobalBindings extends Binding {
+  @override
+  List<Bind> dependencies() => [
+        Bind.lazyPut(() => CredentialStoreService()),
+        Bind.lazyPut(() => AuthenticationProvider()),
+        Bind.lazyPut(() => AuthenticationService()),
+      ];
+}
+
+class LoginPageBinding extends GlobalBindings {
+  @override
+  List<Bind> dependencies() => [
+        ...super.dependencies(),
+        Bind.lazyPut(() => LoginController()),
+      ];
 }
 
 class MainApp extends StatelessWidget {
@@ -36,7 +50,17 @@ class MainApp extends StatelessWidget {
                 fontSize: 16,
                 color: Colors.white)),
       ),
-      home: const LoginPage(),
+      initialRoute: "/login",
+      getPages: [
+        GetPage(
+            name: "/login",
+            page: () => const LoginPage(),
+            binding: LoginPageBinding()),
+        GetPage(
+            name: "/home",
+            page: () => const HomePage(),
+            binding: GlobalBindings())
+      ],
     );
   }
 }
