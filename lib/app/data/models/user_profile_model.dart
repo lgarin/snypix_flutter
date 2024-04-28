@@ -25,16 +25,12 @@ enum LocationPrivacy {
   blur('BLUR'),
   mask('MASK');
 
-  static const Map<String, LocationPrivacy> _locationPrivacyMap = {
-    'BLUR': LocationPrivacy.blur,
-    'MASK': LocationPrivacy.mask,
-  };
-
   final String name;
 
   const LocationPrivacy(this.name);
 
-  static LocationPrivacy? fromJson(String name) => _locationPrivacyMap[name];
+  static LocationPrivacy fromJson(String name) =>
+      LocationPrivacy.values.byName(name);
 }
 
 class UserPrivacyModel {

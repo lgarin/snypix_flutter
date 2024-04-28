@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snypix_flutter/core/values/colors.dart';
+import 'package:snypix_flutter/core/values/fonts.dart';
 
 abstract class AppTheme {
   static final data = ThemeData(
@@ -9,7 +10,5 @@ abstract class AppTheme {
       appBarTheme:
           const AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
       textTheme: const TextTheme(
-          labelLarge: TextStyle(fontSize: 18, color: Colors.white),
-          titleSmall: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)));
+          labelLarge: ThemeFont.labelLarge, titleSmall: ThemeFont.titleSmall));
 }

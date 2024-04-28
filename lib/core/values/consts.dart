@@ -9,13 +9,12 @@ abstract class LoginImage {
   static const logoPath = 'assets/images/logo_login.png';
 }
 
-abstract class Size {
+abstract class FixedSpace {
   static const margin = 40.0;
   static const spacing = 10.0;
-}
-
-abstract class FixedSpace {
-  static const vertical = SizedBox(height: Size.spacing);
+  static const vertical = SizedBox(height: spacing);
+  static const empty = SizedBox(height: 0, width: 0);
+  static const padding = EdgeInsets.all(spacing);
 }
 
 abstract class RoundedBorder {
@@ -24,4 +23,13 @@ abstract class RoundedBorder {
 
   static const narrowRadius = 20.0;
   static const narrow = BorderRadius.all(Radius.circular(narrowRadius));
+}
+
+abstract class DataPaging {
+  static const pageSize = 20;
+}
+
+abstract class ThumbnailDimension {
+  static const width = 320;
+  static const height = 480;
 }

@@ -29,10 +29,12 @@ class LoginPage extends GetView<LoginController> {
     return ListView(children: <Widget>[
       Container(
           margin: const EdgeInsets.only(
-              top: Size.margin, left: Size.margin, right: Size.margin),
+              top: FixedSpace.margin,
+              left: FixedSpace.margin,
+              right: FixedSpace.margin),
           child: const LoginHeader()),
       Container(
-        margin: const EdgeInsets.all(Size.margin),
+        margin: const EdgeInsets.all(FixedSpace.margin),
         child: const LoginWidget(),
       ),
     ]);

@@ -7,18 +7,19 @@ import 'package:snypix_flutter/core/values/consts.dart';
 
 class AutomaticLoginWidget extends GetView<LoginController> {
   static const label = 'Keep me signed in';
+  static const icon = Icon(Icons.vpn_key);
 
   const AutomaticLoginWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return WideRoundedField(
-        padding: const EdgeInsets.symmetric(vertical: Size.spacing),
+        padding: const EdgeInsets.symmetric(vertical: FixedSpace.spacing),
         child: CheckboxFormField(
           onSaved: controller.setStoreCredential,
           initialValue: controller.storeCredential,
           title: Text(label, style: Theme.of(context).textTheme.titleMedium),
-          secondary: const Icon(Icons.vpn_key),
+          secondary: icon,
         ));
   }
 }

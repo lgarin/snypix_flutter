@@ -38,6 +38,7 @@ class LoginController extends GetxController with StateMixin<CredentialModel> {
 
   bool hasPasswordInput() => password != '';
 
+  // TODO state should not be overriden
   @override
   CredentialModel get state => _credential;
 
