@@ -32,6 +32,7 @@ abstract class ContentPage<T extends ContentController> extends GetView<T> {
 
   Widget? buildDrawer() {
     return null;
+    // TODO implement drawer
     //return UserMenu(currentPage: pageName);
   }
 

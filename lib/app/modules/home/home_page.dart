@@ -79,8 +79,8 @@ class HomePage extends ContentPage<HomeController> {
     return TabBarView(
       controller: controller.categoryController,
       physics: controller.showMapTab
-          ? const BouncingScrollPhysics()
-          : const NeverScrollableScrollPhysics(),
+          ? const NeverScrollableScrollPhysics()
+          : const BouncingScrollPhysics(),
       children: ExtendedMediaCategory.tokens.map(_createTabContent).toList(),
     );
   }

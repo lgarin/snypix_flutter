@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snypix_flutter/app/modules/content/content_controller.dart';
+import 'package:snypix_flutter/app/modules/home/gallery_controller.dart';
 import 'package:snypix_flutter/core/values/strings.dart';
 
 class HomeController extends ContentController
@@ -19,6 +20,30 @@ class HomeController extends ContentController
     super.onInit();
     _categoryController =
         TabController(length: ExtendedMediaCategory.tokens.length, vsync: this);
+    _categoryController.addListener(_loadCategory);
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    _loadCategory();
+  }
+
+  @override
+  void onClose() {
+    _categoryController.dispose();
+    super.onClose();
+  }
+
+  void _loadCategory() {
+    if (categoryController.indexIsChanging) {
+      return;
+    }
+    final token = ExtendedMediaCategory.tokens[categoryController.index];
+    final galleryController = Get.find<GalleryController>(tag: token);
+    if (galleryController.state.isEmpty) {
+      galleryController.refreshData();
+    }
   }
 
   String get searchKeyword => _searchKeyword.value;

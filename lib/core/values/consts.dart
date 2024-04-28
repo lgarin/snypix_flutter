@@ -32,4 +32,5 @@ abstract class DataPaging {
 abstract class ThumbnailDimension {
   static const width = 320;
   static const height = 480;
+  static const aspectRatio = 16.0 / 9.0;
 }

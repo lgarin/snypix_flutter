@@ -5,7 +5,7 @@ import 'package:snypix_flutter/core/values/consts.dart';
 
 typedef MediaSelectionCallback = void Function(MediaModel);
 
-class ThumbnailWidget extends StatelessWidget {
+class MediaThumbnailWidget extends StatelessWidget {
   static const verticalSpace = SizedBox(height: 4);
   static const titleFont = TextStyle(fontSize: 14, color: Colors.black);
   static const normalFont = TextStyle(fontSize: 12, color: Colors.black);
@@ -21,7 +21,7 @@ class ThumbnailWidget extends StatelessWidget {
 
   static void _dummyCallback(MediaModel media) {}
 
-  ThumbnailWidget(
+  MediaThumbnailWidget(
       {required this.media,
       MediaSelectionCallback? onTapCallback,
       MediaSelectionCallback? onLongPressCallback})

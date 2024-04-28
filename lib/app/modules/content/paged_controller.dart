@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
-import 'package:snypix_flutter/app/modules/content/content_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:snypix_flutter/app/data/models/paging_model.dart';
+import 'package:snypix_flutter/app/modules/content/content_controller.dart';
 import 'package:snypix_flutter/core/values/consts.dart';
 
 abstract class PagedController<E> extends ContentController
     with StateMixin<List<E>> {
   var _nextPage = PagingParameter(pageSize: DataPaging.pageSize, pageNumber: 0);
 
-  final refreshController = RefreshController(initialRefresh: true);
+  final refreshController = RefreshController();
 
   @override
   void onInit() {
@@ -24,11 +24,14 @@ abstract class PagedController<E> extends ContentController
 
   Future<ResultPage<E>> loadNextPage(PagingParameter parameter);
 
+  void refreshData() async {
+    await refreshController.requestRefresh();
+  }
+
   void onRefresh() async {
     change(GetStatus.loading());
     try {
       _nextPage = PagingParameter(pageSize: DataPaging.pageSize, pageNumber: 0);
-      await Future.delayed(const Duration(milliseconds: 1000));
       final result = await loadNextPage(_nextPage);
       _updateState([], result);
       refreshController.refreshCompleted();

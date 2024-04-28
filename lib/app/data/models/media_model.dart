@@ -1,20 +1,19 @@
 import 'package:snypix_flutter/app/data/models/paging_model.dart';
+import 'package:snypix_flutter/core/data/models/java_enum.dart';
 
-enum ApprovalModifier {
+enum ApprovalModifier implements JavaEnum {
   like('LIKE'),
   dislike('DISLIKE');
 
-  final String name;
+  @override
+  final String javaName;
 
-  const ApprovalModifier(this.name);
+  const ApprovalModifier(this.javaName);
 
-// TODO cleanup
-  static ApprovalModifier fromJson(String name) =>
-      values.firstWhere((element) => element.name == name,
-          orElse: () => throw ArgumentError('Unknown ApprovalModifier: $name'));
+  static ApprovalModifier fromJson(String name) => values.getByJavaName(name);
 }
 
-enum MediaFormat {
+enum MediaFormat implements JavaEnum {
   mediaJpg('MEDIA_JPG'),
   mediaMov('MEDIA_MOV'),
   mediaMp4('MEDIA_MP4'),
@@ -22,14 +21,12 @@ enum MediaFormat {
   previewMp4('PREVIEW_MP4'),
   thumbnailJpg('THUMBNAIL_JPG');
 
-  final String name;
+  @override
+  final String javaName;
 
-  const MediaFormat(this.name);
+  const MediaFormat(this.javaName);
 
-  // TODO cleanup
-  static MediaFormat fromJson(String name) =>
-      values.firstWhere((element) => element.name == name,
-          orElse: () => throw ArgumentError('Unknown MediaFormat: $name'));
+  static MediaFormat fromJson(String name) => values.getByJavaName(name);
 }
 
 class MediaModel {

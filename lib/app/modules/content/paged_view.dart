@@ -27,16 +27,14 @@ abstract class PagedView<E, T extends PagedController<E>>
         child: _buildBody());
   }
 
+// FIXME footer not showing
   Widget _buildFooter(BuildContext context, LoadStatus? mode) {
-    if (mode == LoadStatus.loading) {
-      return const Align(
-          alignment: Alignment.bottomCenter,
-          child: RefreshProgressIndicator(
-            backgroundColor: ThemeColor.primary,
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-          ));
-    }
-    return FixedSpace.empty;
+    return const Align(
+        alignment: Alignment.bottomCenter,
+        child: RefreshProgressIndicator(
+          backgroundColor: ThemeColor.primary,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        ));
   }
 
   Widget _buildBody() {

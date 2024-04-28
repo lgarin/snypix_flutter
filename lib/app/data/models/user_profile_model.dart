@@ -1,4 +1,5 @@
 import 'package:snypix_flutter/app/data/models/login_response_model.dart';
+import 'package:snypix_flutter/core/data/models/java_enum.dart';
 
 class UserStatisticModel {
   final int hitCount;
@@ -21,16 +22,16 @@ class UserStatisticModel {
   int get mediaCount => pictureCount + videoCount;
 }
 
-enum LocationPrivacy {
+enum LocationPrivacy implements JavaEnum {
   blur('BLUR'),
   mask('MASK');
 
-  final String name;
+  @override
+  final String javaName;
 
-  const LocationPrivacy(this.name);
+  const LocationPrivacy(this.javaName);
 
-  static LocationPrivacy fromJson(String name) =>
-      LocationPrivacy.values.byName(name);
+  static LocationPrivacy fromJson(String name) => values.getByJavaName(name);
 }
 
 class UserPrivacyModel {

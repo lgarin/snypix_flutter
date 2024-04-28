@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:snypix_flutter/app/data/models/media_model.dart';
-import 'package:snypix_flutter/app/modules/home/gallery_controller.dart';
-import 'package:snypix_flutter/app/modules/home/widgets/thumbnail_widget.dart';
 import 'package:snypix_flutter/app/modules/content/paged_view.dart';
+import 'package:snypix_flutter/app/modules/home/gallery_controller.dart';
+import 'package:snypix_flutter/app/modules/home/widgets/media_thumbnail_widget.dart';
 import 'package:snypix_flutter/core/values/consts.dart';
 
 class GalleryView extends PagedView<MediaModel, GalleryController> {
@@ -20,11 +20,10 @@ class GalleryView extends PagedView<MediaModel, GalleryController> {
       return Center(child: _buildNoContent(context));
     }
 
-// TODO use GetResponsiveWidget
     final portrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return GridView.count(
         crossAxisCount: portrait ? 2 : 3,
-        childAspectRatio: 16.0 / 9.0,
+        childAspectRatio: ThumbnailDimension.aspectRatio,
         mainAxisSpacing: FixedSpace.spacing,
         crossAxisSpacing: FixedSpace.spacing,
         padding: FixedSpace.padding,
@@ -32,7 +31,7 @@ class GalleryView extends PagedView<MediaModel, GalleryController> {
   }
 
   Widget _buildGridTile(MediaModel media) {
-    return ThumbnailWidget(
+    return MediaThumbnailWidget(
         media: media, onTapCallback: controller.onGridTileSelection);
   }
 
