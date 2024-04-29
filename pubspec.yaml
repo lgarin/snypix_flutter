@@ -12,7 +12,7 @@ dependencies:
   get: ^5.0.0-release-candidate-5
   flutter_secure_storage:
   flutter_typeahead:
-  pull_to_refresh:
+  pull_to_refresh_flutter3:
   google_maps_flutter:
 
 dev_dependencies:

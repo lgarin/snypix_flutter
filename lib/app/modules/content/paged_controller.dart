@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:snypix_flutter/app/data/models/paging_model.dart';
 import 'package:snypix_flutter/app/modules/content/content_controller.dart';
 import 'package:snypix_flutter/core/values/consts.dart';
