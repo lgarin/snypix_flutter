@@ -7,7 +7,8 @@ import 'package:snypix_flutter/core/data/providers/http_provider.dart';
 
 class AuthenticationProvider extends HttpProvider {
   Future<LoginResponseModel> loginUser(CredentialModel credential) async {
-    final response = await post('/user/login', jsonEncode(credential),
+    const uri = '/user/login';
+    final response = await post(uri, jsonEncode(credential),
         headers: buildHeader(contentType: jsonMediaType));
     if (response.isOk) {
       return LoginResponseModel.fromJson(response.body);
@@ -16,7 +17,8 @@ class AuthenticationProvider extends HttpProvider {
   }
 
   Future<LoginTokenModel?> renewLogin(String refreshToken) async {
-    final response = await post('/user/renewLogin', refreshToken,
+    const uri = '/user/renewLogin';
+    final response = await post(uri, refreshToken,
         headers: buildHeader(contentType: textMediaType));
     if (response.isOk) {
       return LoginTokenModel.fromJson(response.body);
@@ -27,8 +29,9 @@ class AuthenticationProvider extends HttpProvider {
   }
 
   Future<void> logout(String accessToken) async {
-    final response = await post('/user/logout', null,
-        headers: buildHeader(accessToken: accessToken));
+    const uri = '/user/logout';
+    final response =
+        await post(uri, null, headers: buildHeader(accessToken: accessToken));
     if (response.statusCode == HttpStatus.noContent) {
       return;
     }

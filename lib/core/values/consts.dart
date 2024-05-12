@@ -12,6 +12,7 @@ abstract class LoginImage {
 abstract class FixedSpace {
   static const margin = 40.0;
   static const spacing = 10.0;
+  static const horizontal = SizedBox(width: 2 * spacing);
   static const vertical = SizedBox(height: spacing);
   static const empty = SizedBox(height: 0, width: 0);
   static const padding = EdgeInsets.all(spacing);
@@ -33,4 +34,8 @@ abstract class ThumbnailDimension {
   static const width = 320;
   static const height = 480;
   static const aspectRatio = 16.0 / 9.0;
+}
+
+abstract class Delay {
+  static const debounce = Duration(milliseconds: 500);
 }

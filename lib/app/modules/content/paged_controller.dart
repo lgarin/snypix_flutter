@@ -8,7 +8,10 @@ abstract class PagedController<E> extends ContentController
     with StateMixin<List<E>> {
   var _nextPage = PagingParameter(pageSize: DataPaging.pageSize, pageNumber: 0);
 
+  final _searchKeyword = ''.obs;
   final refreshController = RefreshController();
+
+  String get searchKeyword => _searchKeyword.value;
 
   @override
   void onInit() {
@@ -22,9 +25,11 @@ abstract class PagedController<E> extends ContentController
     super.onClose();
   }
 
-  Future<ResultPage<E>> loadNextPage(PagingParameter parameter);
+  Future<ResultPage<E>> loadNextPage(
+      PagingParameter parameter, String searchKeyword);
 
-  void refreshData() async {
+  void refreshData(String searchKeyword) async {
+    _searchKeyword.value = searchKeyword;
     await refreshController.requestRefresh();
   }
 
@@ -32,7 +37,7 @@ abstract class PagedController<E> extends ContentController
     change(GetStatus.loading());
     try {
       _nextPage = PagingParameter(pageSize: DataPaging.pageSize, pageNumber: 0);
-      final result = await loadNextPage(_nextPage);
+      final result = await loadNextPage(_nextPage, _searchKeyword.value);
       _updateState([], result);
       refreshController.refreshCompleted();
       if (_nextPage.pageSize == 0) {
@@ -50,7 +55,7 @@ abstract class PagedController<E> extends ContentController
   void onLoading() async {
     change(GetStatus.loading());
     try {
-      final result = await loadNextPage(_nextPage);
+      final result = await loadNextPage(_nextPage, _searchKeyword.value);
       _updateState(value, result);
       if (_nextPage.pageSize == 0) {
         refreshController.loadNoData();

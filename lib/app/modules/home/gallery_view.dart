@@ -12,14 +12,13 @@ class GalleryView extends PagedView<MediaModel, GalleryController> {
   static const noContentSubText = 'Be the first to post some media here.';
 
   GalleryView(String? categoryToken)
-      : super(tag: categoryToken, key: ValueKey(categoryToken));
+      : super(tag: categoryToken, key: ValueKey(categoryToken ?? ''));
 
   @override
   Widget buildContent(BuildContext context, List<MediaModel> data) {
     if (data.isEmpty) {
       return Center(child: _buildNoContent(context));
     }
-
     final portrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return GridView.count(
         crossAxisCount: portrait ? 2 : 3,

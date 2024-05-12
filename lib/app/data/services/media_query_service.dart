@@ -20,4 +20,13 @@ class MediaQueryService extends GetxService {
         paging: paging,
         accessToken: accessToken);
   }
+
+  Future<List<String>> suggestTags(String term, int maxHitCount) async {
+    if (term.length < 3) {
+      return <String>[];
+    }
+    final accessToken = await _tokenService.obtainAccessToken();
+    return await _queryApi.suggestTags(
+        term: term, maxHitCount: maxHitCount, accessToken: accessToken);
+  }
 }

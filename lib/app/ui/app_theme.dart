@@ -7,8 +7,17 @@ abstract class AppTheme {
       brightness: Brightness.light,
       primaryColor: ThemeColor.primary,
       primaryColorDark: ThemeColor.primaryDark,
-      appBarTheme:
-          const AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
+      appBarTheme: const AppBarTheme(
+          backgroundColor: ThemeColor.background, elevation: 5.0),
+      tabBarTheme: const TabBarTheme(
+          indicatorColor: Colors.white,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.black),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: ThemeColor.background,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.black,
+          elevation: 5.0),
       textTheme: const TextTheme(
           labelLarge: ThemeFont.labelLarge, titleSmall: ThemeFont.titleSmall));
 }

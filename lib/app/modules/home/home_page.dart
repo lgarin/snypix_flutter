@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:snypix_flutter/app/modules/content/content_page.dart';
 import 'package:snypix_flutter/app/modules/home/gallery_view.dart';
 import 'package:snypix_flutter/app/modules/home/home_controller.dart';
+import 'package:snypix_flutter/app/modules/home/widgets/keyword_search_widget.dart';
+import 'package:snypix_flutter/app/modules/home/widgets/search_button_widget.dart';
 import 'package:snypix_flutter/app/routes/app_routes.dart';
-import 'package:snypix_flutter/app/modules/content/content_page.dart';
+import 'package:snypix_flutter/core/values/consts.dart';
 import 'package:snypix_flutter/core/values/strings.dart';
 
 enum _NavBarItem {
@@ -36,18 +39,11 @@ class HomePage extends ContentPage<HomeController> {
   @override
   AppBar buildAppBar() {
     return AppBar(
-        /*
-        title: ChangeNotifierProvider.value(
-            value: _searchModel,
-            child: _KeywordSearchWidget(appName, _fetchSuggestions)),
-        */
-        /*
-        actions: <Widget>[
-          ChangeNotifierProvider.value(
-              value: _searchModel, child: _SearchTriggerWidget()),
-          SizedBox(width: 20),
+        title: const KeywordSearchWidget(),
+        actions: const <Widget>[
+          SearchButtonWidget(),
+          FixedSpace.horizontal,
         ],
-        */
         bottom: _buildTabBar());
   }
 

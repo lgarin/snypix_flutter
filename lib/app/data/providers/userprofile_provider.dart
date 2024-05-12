@@ -3,8 +3,9 @@ import 'package:snypix_flutter/core/data/providers/http_provider.dart';
 
 class UserProfileProvider extends HttpProvider {
   Future<UserProfileModel?> currentUser(String accessToken) async {
-    final response = await get('/user/current',
-        headers: buildHeader(accessToken: accessToken));
+    const uri = '/user/current';
+    final response =
+        await get(uri, headers: buildHeader(accessToken: accessToken));
     if (response.isOk) {
       return UserProfileModel.fromJson(response.body);
     } else if (response.unauthorized) {

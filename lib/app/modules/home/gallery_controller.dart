@@ -8,13 +8,13 @@ class GalleryController extends PagedController<MediaModel> {
   MediaQueryService get _queryService => Get.find<MediaQueryService>();
 
   final String? _categoryToken;
-  final keywords = ''.obs;
 
   GalleryController(this._categoryToken);
 
   @override
-  Future<ResultPage<MediaModel>> loadNextPage(PagingParameter parameter) {
-    return _queryService.listMedia(_categoryToken, keywords.value, parameter);
+  Future<ResultPage<MediaModel>> loadNextPage(
+      PagingParameter parameter, String searchKeyword) {
+    return _queryService.listMedia(_categoryToken, searchKeyword, parameter);
   }
 
   void onGridTileSelection(MediaModel media) async {

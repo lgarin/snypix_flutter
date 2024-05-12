@@ -50,4 +50,17 @@ class MediaQueryProvider extends HttpProvider {
     }
     throw extractErrorMessage(response);
   }
+
+  Future<List<String>> suggestTags(
+      {required String term,
+      required int maxHitCount,
+      required String accessToken}) async {
+    final uri = '/media/suggestTags?term=$term&maxHitCount=$maxHitCount';
+    final response =
+        await get(uri, headers: buildHeader(accessToken: accessToken));
+    if (response.isOk) {
+      return List<String>.from(response.body);
+    }
+    throw extractErrorMessage(response);
+  }
 }
