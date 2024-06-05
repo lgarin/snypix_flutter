@@ -36,32 +36,21 @@ abstract class PagedController<E> extends ContentController
   void onRefresh() async {
     change(GetStatus.loading());
     try {
-      _nextPage = PagingParameter(pageSize: DataPaging.pageSize, pageNumber: 0);
+      _nextPage = PagingParameter(pageSize: DataPaging.pageSize);
       final result = await loadNextPage(_nextPage, _searchKeyword.value);
       _updateState([], result);
       refreshController.refreshCompleted();
-      if (_nextPage.pageSize == 0) {
-        refreshController.loadNoData();
-      } else {
-        refreshController.loadComplete();
-      }
     } catch (e) {
       refreshController.refreshFailed();
       change(GetStatus.error(e.toString()));
     }
   }
 
-// FIXME this method is not called
   void onLoading() async {
     change(GetStatus.loading());
     try {
       final result = await loadNextPage(_nextPage, _searchKeyword.value);
       _updateState(value, result);
-      if (_nextPage.pageSize == 0) {
-        refreshController.loadNoData();
-      } else {
-        refreshController.loadComplete();
-      }
     } catch (e) {
       refreshController.loadFailed();
       change(GetStatus.error(e.toString()));
@@ -76,7 +65,12 @@ abstract class PagedController<E> extends ContentController
   }
 
   void _updateState(List<E> previousState, ResultPage<E> result) {
-    _nextPage = result.nextPage ?? PagingParameter(pageSize: 0, pageNumber: -1);
+    _nextPage = result.nextPage ?? PagingParameter(pageSize: 0);
+    if (_nextPage.pageSize == 0) {
+      refreshController.loadNoData();
+    } else {
+      refreshController.loadComplete();
+    }
     change(GetStatus.success([...previousState, ...result.content]));
   }
 }

@@ -10,6 +10,7 @@ import 'package:snypix_flutter/app/data/services/user_profile_service.dart';
 import 'package:snypix_flutter/app/modules/home/gallery_controller.dart';
 import 'package:snypix_flutter/app/modules/home/home_controller.dart';
 import 'package:snypix_flutter/app/modules/login/login_controller.dart';
+import 'package:snypix_flutter/app/modules/test/test_controller.dart';
 import 'package:snypix_flutter/core/values/strings.dart';
 
 abstract class AppBinds {
@@ -32,5 +33,9 @@ abstract class AppBinds {
     Bind.lazyPut(HomeController.new),
     ...ExtendedMediaCategory.tokens.map(
         (token) => Bind.lazyPut(() => GalleryController(token), tag: token)),
+  ];
+
+  static final List<Bind> test = [
+    Bind.lazyPut(TestController.new),
   ];
 }

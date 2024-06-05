@@ -4,12 +4,12 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=3.2.4 <4.0.0'
+  sdk: '>=3.4.1 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  get: ^5.0.0-release-candidate-5
+  get: ^5.0.0-release-candidate-6
   flutter_secure_storage:
   flutter_typeahead:
   pull_to_refresh_flutter3:

@@ -11,6 +11,6 @@ class AccessTokenService extends GetxService {
       // TODO check that the login page returns to the previous page
       await Get.toNamed(AppRoutes.login);
     }
-    return token!;
+    return token ?? await obtainAccessToken();
   }
 }

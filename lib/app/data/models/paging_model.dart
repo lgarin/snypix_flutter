@@ -3,7 +3,7 @@ class PagingParameter {
   final int pageSize;
   final int? timestamp;
 
-  PagingParameter({required this.pageNumber, required this.pageSize})
+  PagingParameter({required this.pageSize, this.pageNumber = 0})
       : timestamp = null;
 
   PagingParameter.fromJson(Map<String, dynamic> json)
