@@ -51,7 +51,7 @@ class HomeController extends ContentController
       return;
     }
     final galleryController = currentGalleryController;
-    if (galleryController.state.isEmpty ||
+    if (galleryController.status.isLoading ||
         galleryController.searchKeyword != _keywordController.text) {
       galleryController.refreshData(_keywordController.text);
     }

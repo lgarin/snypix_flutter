@@ -16,6 +16,7 @@ abstract class PagedView<E, T extends PagedController<E>>
   @override
   Widget build(BuildContext context) => Observer(builder: (context) {
         return SmartRefresher(
+            key: PageStorageKey(tag),
             enablePullDown: true,
             enablePullUp: true,
             controller: controller.refreshController,
